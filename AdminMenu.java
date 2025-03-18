@@ -188,23 +188,7 @@ public class AdminMenu implements menuInterface
         }
     }
 
-    private int inputHelper(){
-        int input;
-        while (true)
-        {
-            if (scanner.hasNextInt())
-            {
-                input = scanner.nextInt();
-                scanner.nextLine(); // Consume the newline character
-                return input;
-            }
-            else
-            {
-                System.out.println("Invalid input. Please enter an integer.");
-                scanner.next(); // Discard the invalid input
-            }
-        }
-    }
+
 
     private User findUser(List<User> users, int accountNumber){
         for (User user : users)
