@@ -1,0 +1,32 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "login": "admin",
+      "pin": "12345",
+      "name": "Joshua",
+      "type": "Admin",
+      "balance": 0.0,
+      "status": "Active"
+    },
+    {
+      "id": 3,
+      "login": "Adnan123",
+      "pin": "12345",
+      "name": "Adnan",
+      "type": "Customer",
+      "balance": 1000.0,
+      "status": "Disabled"
+    },
+    {
+      "id": 4,
+      "login": "MikeKaz",
+      "pin": "12345",
+      "name": "Michael Kazper",
+      "type": "Customer",
+      "balance": 0.0,
+      "status": "Active"
+    }
+  ],
+  "nextID": 5
+}
