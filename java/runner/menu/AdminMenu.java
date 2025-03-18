@@ -42,7 +42,7 @@ public class AdminMenu implements menuInterface
                     searchAccount();
                     break;
                 case 5:
-                    System.out.println("Exiting... Thank you for using the menu.ATM.");
+                    System.out.println("Exiting... Thank you for using the ATM.");
                     return;
                 default:
                     System.out.println("Invalid choice. Try again.");
@@ -57,15 +57,8 @@ public class AdminMenu implements menuInterface
         System.out.println("Create New Account:");
         System.out.print("Enter Login: ");
         String login = scanner.next();
-
         System.out.print("Enter Pin Code (5 digits): ");
-        String pinCode = scanner.next();
-
-        if (pinCode.length() != 5 || !pinCode.matches("\\d+"))
-        {
-            System.out.println("Invalid pin code. It should be a 5-digit number.");
-            return;
-        }
+        int pinCode = pinHelper();
 
         System.out.print("Enter Account Holder Name: ");
         String holderName = scanner.next();
@@ -73,11 +66,19 @@ public class AdminMenu implements menuInterface
         System.out.print("Enter Starting Balance: ");
         double balance = scanner.nextDouble();
 
-        System.out.print("Enter Account Status (Active/Disabled): ");
-        String status = scanner.next();
+        System.out.print("Enter new Account Status (Active/Disabled): ");
+        String status = scanner.next().trim();
+        if (!(status.equalsIgnoreCase("active") || status.equalsIgnoreCase("disabled"))){
+            System.out.println("Invalid status. Must be Active or Disabled.");
+            return;
+        }
 
         System.out.print("Enter Account Type (Customer/Admin): ");
-        String type = scanner.next();
+        String type = scanner.next().trim();
+        if (!(type.equalsIgnoreCase("customer") || type.equalsIgnoreCase("admin"))){
+            System.out.println("Invalid type. Must be Customer or Admin.");
+            return;
+        }
 
         User newUser = new User(holderName, login, pinCode, type, balance, status);
         users.add(newUser); // Add user to list
@@ -140,7 +141,13 @@ public class AdminMenu implements menuInterface
                     break;
                 case 2:
                     System.out.print("Enter new Account Status (Active/Disabled): ");
-                    userToFind.setStatus(scanner.next());
+                    String newStatus = scanner.next().trim();
+                    if (newStatus.equalsIgnoreCase("active") || newStatus.equalsIgnoreCase("disabled")){
+                        userToFind.setStatus(newStatus);
+                    }
+                    else{
+                        System.out.println("Invalid status. Must be Active or Disabled.");
+                    }
                     break;
                 case 3:
                     System.out.print("Enter new Login: ");
@@ -148,12 +155,7 @@ public class AdminMenu implements menuInterface
                     break;
                 case 4:
                     System.out.print("Enter new PIN (5 digits): ");
-                    String newPin = scanner.next();
-                    if (newPin.length() != 5 || !newPin.matches("\\d+"))
-                    {
-                        System.out.println("Invalid pin. It should be 5 digits.");
-                        return;
-                    }
+                    int newPin = pinHelper();
                     userToFind.setPin(newPin);
                     break;
                 default:
@@ -203,5 +205,16 @@ public class AdminMenu implements menuInterface
             }
         }
         return null;
+    }
+
+    private int pinHelper(){
+        String pinCode = "";
+        while (true){
+            pinCode = scanner.next();
+            if (pinCode.length() == 5 && pinCode.matches("\\d+")){
+                return (Integer.parseInt(pinCode));
+            }
+            System.out.println("Try again. Pin needs to be a 5 digit integer.");
+        }
     }
 }

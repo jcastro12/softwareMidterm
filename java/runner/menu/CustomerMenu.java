@@ -40,11 +40,12 @@ public class CustomerMenu implements menuInterface
                     break;
                 case 3:
                     System.out.println("Account #"+user.getId());
+                    displayDate();
                     db.updateUser(user); // Save changes for this user
                     System.out.println("Current Balance: $" + user.getBalance());
                     break;
                 case 4:
-                    System.out.println("Exiting... Thank you for using the menu.ATM.");
+                    System.out.println("Exiting... Thank you for using the ATM.");
                     return;
                 default:
                     System.out.println("Invalid choice. Try again.");

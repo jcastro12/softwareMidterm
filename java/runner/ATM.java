@@ -36,10 +36,16 @@ public class ATM {
             String login = scanner.nextLine();
 
             System.out.print("Enter PIN code: ");
-            String pin = scanner.nextLine();
+            String pinCode = "";
+            while (true) {
+                pinCode = scanner.next();
+                if (pinCode.length() == 5 && pinCode.matches("\\d+")) {
+                    break;
+                }
+                System.out.println("Try again. Pin needs to be a 5 digit integer.");
+            }
 
-            User user = atm.authService.authenticate(login, pin);
-
+            User user = atm.authService.authenticate(login, Integer.parseInt(pinCode));
             if (user != null) {
                 System.out.println("Login successful!");
 
@@ -53,6 +59,8 @@ public class ATM {
                 menu.display();
                 break;
             } else {
+                scanner.nextLine();
+
                 System.out.println("Invalid login or PIN. Try again.");
             }
         }

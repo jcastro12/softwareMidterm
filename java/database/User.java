@@ -6,13 +6,13 @@ public class User
 {
     private final int id;
     private String login;
-    private String pin;
+    private int pin;
     private String name;
     private final String type;
     private double balance;
     private String status;
 
-    public User(String name, String login, String pin, String type, double initial, String status)
+    public User(String name, String login, int pin, String type, double initial, String status)
     {
         this.id = db.getNextID();
         this.login = login;
@@ -28,7 +28,7 @@ public class User
         return login;
     }
 
-    public String getPin()
+    public int getPin()
     {
         return pin;
     }
@@ -63,7 +63,7 @@ public class User
     public void setLogin(String n){
         login = n;
     }
-    public void setPin(String n){
+    public void setPin(int n){
         pin = n;
     }
 

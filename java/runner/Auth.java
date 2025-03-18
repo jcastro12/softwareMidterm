@@ -15,9 +15,9 @@ public class Auth {
         this.users = databaseService.loadUsers(); // Use injected database service to load users
     }
 
-    public User authenticate(String username, String pin) {
+    public User authenticate(String username, int pin) {
         for (User user : users) {
-            if (user.getLogin().equals(username) && user.getPin().equals(pin)) {
+            if (user.getLogin().equals(username) && user.getPin()==pin) {
                 return user; // Return the user if authentication is successful
             }
         }
