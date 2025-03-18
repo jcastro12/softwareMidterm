@@ -1,6 +1,4 @@
-import java.io.IOException;
 import java.util.List;
-import java.util.Optional;
 import java.util.Scanner;
 
 public class AdminMenu implements menuInterface
@@ -23,10 +21,8 @@ public class AdminMenu implements menuInterface
             System.out.println("3 - Update Account Information");
             System.out.println("4 - Search for Account");
             System.out.println("5 - Exit");
-
-            System.out.print("Select an option: ");
-            int choice = scanner.nextInt();
-
+            System.out.println("Enter a choice: ");
+            int choice = inputHelper();
             switch (choice)
             {
                 case 1:
@@ -90,23 +86,19 @@ public class AdminMenu implements menuInterface
     private void deleteAccount()
     {
         List<User> users = db.loadUsers();
-        System.out.print("Enter the account number to delete: ");
-        int accountNumber = scanner.nextInt();
+        System.out.println("Enter the account number to delete: ");
+        User userToFind = findUser(users, inputHelper());
 
-        Optional<User> userToDelete = users.stream()
-                .filter(user -> user.getId() == accountNumber)
-                .findFirst();
-
-        if (userToDelete.isPresent())
+        if (userToFind != null)
         {
-            System.out.print("Are you sure you want to delete account #" + accountNumber + "? (yes/no): ");
+            System.out.print("Are you sure you want to delete account #" + userToFind.getId() + "? (yes/no): ");
             String confirmation = scanner.next();
 
             if (confirmation.equalsIgnoreCase("yes"))
             {
-                users.remove(userToDelete.get());
+                users.remove(userToFind);
                 db.saveDatabase(users);
-                System.out.println("Account #" + accountNumber + " deleted successfully.");
+                System.out.println("Account #" + userToFind.getId() + " deleted successfully.");
             }
             else
             {
@@ -122,39 +114,33 @@ public class AdminMenu implements menuInterface
     private void updateAccountInfo()
     {
         List<User> users = db.loadUsers();
-        System.out.print("Enter the account number to update: ");
-        int accountNumber = scanner.nextInt();
+        System.out.println("Enter the account number to update: ");
+        User userToFind = findUser(users, inputHelper());
 
-        Optional<User> userToUpdate = users.stream()
-                .filter(user -> user.getId() == accountNumber)
-                .findFirst();
-
-        if (userToUpdate.isPresent())
+        if (userToFind != null)
         {
-            User user = userToUpdate.get();
-
-            System.out.println("Account found: " + user.getName());
+            System.out.println("Account found: " + userToFind.getName());
             System.out.println("What would you like to update?");
             System.out.println("1 - Update Account Holder Name");
             System.out.println("2 - Update Account Status");
             System.out.println("3 - Update Account Login");
             System.out.println("4 - Update Account PIN");
             System.out.print("Select an option: ");
-            int updateChoice = scanner.nextInt();
+            int updateChoice = inputHelper();
 
             switch (updateChoice)
             {
                 case 1:
                     System.out.print("Enter new Account Holder Name: ");
-                    user.setName(scanner.next());
+                    userToFind.setName(scanner.next());
                     break;
                 case 2:
                     System.out.print("Enter new Account Status (Active/Disabled): ");
-                    user.setStatus(scanner.next());
+                    userToFind.setStatus(scanner.next());
                     break;
                 case 3:
                     System.out.print("Enter new Login: ");
-                    user.setLogin(scanner.next());
+                    userToFind.setLogin(scanner.next());
                     break;
                 case 4:
                     System.out.print("Enter new PIN (5 digits): ");
@@ -164,7 +150,7 @@ public class AdminMenu implements menuInterface
                         System.out.println("Invalid pin. It should be 5 digits.");
                         return;
                     }
-                    user.setPin(newPin);
+                    userToFind.setPin(newPin);
                     break;
                 default:
                     System.out.println("Invalid choice. No updates made.");
@@ -183,33 +169,8 @@ public class AdminMenu implements menuInterface
     private void searchAccount()
     {
         List<User> users = db.loadUsers();
-        int accountNumber = -1;
-
-        while (true)
-        {
-            System.out.print("Enter Account Number to search: ");
-            if (scanner.hasNextInt())
-            {
-                accountNumber = scanner.nextInt();
-                scanner.nextLine(); // Consume the newline character
-                break;
-            }
-            else
-            {
-                System.out.println("Invalid input. Please enter a valid account number.");
-                scanner.next(); // Discard the invalid input
-            }
-        }
-
-        User userToFind = null;
-        for (User user : users)
-        {
-            if (user.getId() == accountNumber)
-            {
-                userToFind = user;
-                break;
-            }
-        }
+        System.out.println("Enter the account number to display: ");
+        User userToFind = findUser(users, inputHelper());
 
         if (userToFind != null)
         {
@@ -225,5 +186,34 @@ public class AdminMenu implements menuInterface
         {
             System.out.println("Account not found.");
         }
+    }
+
+    private int inputHelper(){
+        int input;
+        while (true)
+        {
+            if (scanner.hasNextInt())
+            {
+                input = scanner.nextInt();
+                scanner.nextLine(); // Consume the newline character
+                return input;
+            }
+            else
+            {
+                System.out.println("Invalid input. Please enter an integer.");
+                scanner.next(); // Discard the invalid input
+            }
+        }
+    }
+
+    private User findUser(List<User> users, int accountNumber){
+        for (User user : users)
+        {
+            if (user.getId() == accountNumber)
+            {
+                return user;
+            }
+        }
+        return null;
     }
 }

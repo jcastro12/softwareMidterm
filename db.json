@@ -1,18 +1,9 @@
 {
   "users": [
     {
-      "id": 0,
-      "login": "customer",
-      "pin": "1234",
-      "name": "Joshua Castro",
-      "type": "Customer",
-      "balance": 100.0,
-      "status": "Active"
-    },
-    {
       "id": 1,
       "login": "admin",
-      "pin": "1234",
+      "pin": "12345",
       "name": "Joshua",
       "type": "Admin",
       "balance": 0.0,
