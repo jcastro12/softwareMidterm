@@ -1,6 +1,9 @@
+package database.JSON;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import database.User;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -11,7 +14,7 @@ import java.util.List;
 
 public class db
 {
-    private static final String FILE_PATH = "/Users/joshcastro/IdeaProjects/SoftwareMidtermATM/src/main/java/db.json";
+    private static final String FILE_PATH = "/Users/joshcastro/IdeaProjects/SoftwareMidtermATM/src/main/java/database/JSON/db.json";
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
     private static int nextID = 1; // Default to 1 if not found in JSON
 

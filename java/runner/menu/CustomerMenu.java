@@ -1,7 +1,11 @@
+package runner.menu;
+
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
+import database.User;
+import database.JSON.db;
 
 public class CustomerMenu implements menuInterface
 {
@@ -40,7 +44,7 @@ public class CustomerMenu implements menuInterface
                     System.out.println("Current Balance: $" + user.getBalance());
                     break;
                 case 4:
-                    System.out.println("Exiting... Thank you for using the ATM.");
+                    System.out.println("Exiting... Thank you for using the menu.ATM.");
                     return;
                 default:
                     System.out.println("Invalid choice. Try again.");

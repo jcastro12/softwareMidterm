@@ -1,5 +1,9 @@
+package runner.menu;
+
 import java.util.List;
 import java.util.Scanner;
+import database.User;
+import database.JSON.db;
 
 public class AdminMenu implements menuInterface
 {
@@ -38,7 +42,7 @@ public class AdminMenu implements menuInterface
                     searchAccount();
                     break;
                 case 5:
-                    System.out.println("Exiting... Thank you for using the ATM.");
+                    System.out.println("Exiting... Thank you for using the menu.ATM.");
                     return;
                 default:
                     System.out.println("Invalid choice. Try again.");

@@ -1,3 +1,7 @@
+package database;
+
+import database.JSON.db;
+
 public class User
 {
     private final int id;
