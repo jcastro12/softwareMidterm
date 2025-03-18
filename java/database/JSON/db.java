@@ -1,6 +1,11 @@
+// database class for JSON database implementation
+
+package database.JSON;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import database.User;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -11,15 +16,18 @@ import java.util.List;
 
 public class db
 {
-    private static final String FILE_PATH = "/Users/joshcastro/IdeaProjects/SoftwareMidtermATM/src/main/java/db.json";
+    // JSON dictionary path
+    private static final String FILE_PATH = "/Users/joshcastro/IdeaProjects/SoftwareMidtermATM/src/main/java/database/JSON/db.json";
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
     private static int nextID = 1; // Default to 1 if not found in JSON
 
+    // get the next ID from JSON
     static
     {
         loadNextID(); // Load nextID when the class is first used
     }
 
+    // method to load all users from JSON file
     public static List<User> loadUsers() {
         try (FileReader reader = new FileReader(FILE_PATH)) {
             Type dbType = new TypeToken<Database>() {
@@ -35,6 +43,7 @@ public class db
         return null;
     }
 
+    // method to write the updated/current DB to the JSON file
     public static void saveDatabase(List<User> users)
     {
         try (FileWriter writer = new FileWriter(FILE_PATH))
@@ -48,6 +57,7 @@ public class db
         }
     }
 
+    // method to load the next ID from JSON file for creating new account
     private static void loadNextID()
     {
         try (FileReader reader = new FileReader(FILE_PATH))
@@ -70,12 +80,13 @@ public class db
         }
     }
 
+    // method to update ID of next account created without having to re-visit the JSON
     public static int getNextID()
     {
         return nextID++;
     }
 
-
+    // method to update a single user in the JSON instead of the entire file.
     public static void updateUser(User updatedUser)
     {
         List<User> users = loadUsers();
@@ -90,6 +101,7 @@ public class db
         saveDatabase(users);
     }
 
+    // database class
     private static class Database
     {
         List<User> users;

@@ -1,5 +1,10 @@
+// class to handle admin menuing
+package runner.menu;
+
 import java.util.List;
 import java.util.Scanner;
+import database.User;
+import database.JSON.db;
 
 public class AdminMenu implements menuInterface
 {
@@ -9,7 +14,7 @@ public class AdminMenu implements menuInterface
     {
         this.scanner = scanner;
     }
-
+    // display options
     @Override
     public void display()
     {
@@ -45,60 +50,60 @@ public class AdminMenu implements menuInterface
             }
         }
     }
-
+    // method to create new account with user provided input
     private void createNewAccount()
     {
-        List<User> users = db.loadUsers(); // Load users from JSON
-
         System.out.println("Create New Account:");
         System.out.print("Enter Login: ");
         String login = scanner.next();
-
         System.out.print("Enter Pin Code (5 digits): ");
-        String pinCode = scanner.next();
-
-        if (pinCode.length() != 5 || !pinCode.matches("\\d+"))
-        {
-            System.out.println("Invalid pin code. It should be a 5-digit number.");
-            return;
-        }
+        int pinCode = pinHelper();
 
         System.out.print("Enter Account Holder Name: ");
         String holderName = scanner.next();
 
         System.out.print("Enter Starting Balance: ");
         double balance = scanner.nextDouble();
-
-        System.out.print("Enter Account Status (Active/Disabled): ");
-        String status = scanner.next();
+        // making sure inputs are valid for status and type
+        System.out.print("Enter new Account Status (Active/Disabled): ");
+        String status = scanner.next().trim();
+        if (!(status.equalsIgnoreCase("active") || status.equalsIgnoreCase("disabled"))){
+            System.out.println("Invalid status. Must be Active or Disabled.");
+            return;
+        }
 
         System.out.print("Enter Account Type (Customer/Admin): ");
-        String type = scanner.next();
-
+        String type = scanner.next().trim();
+        if (!(type.equalsIgnoreCase("customer") || type.equalsIgnoreCase("admin"))){
+            System.out.println("Invalid type. Must be Customer or Admin.");
+            return;
+        }
+        // add new user to current database, loading info and then immediately updating to come as close as possible to matching ACID
         User newUser = new User(holderName, login, pinCode, type, balance, status);
+        List<User> users = db.loadUsers(); // Load users from JSON
         users.add(newUser); // Add user to list
-
         db.saveDatabase(users); // Save to database
         System.out.println("Account Successfully Created!");
         System.out.println("Account Number: " + newUser.getId());
     }
-
+    // method to delete account from DB
     private void deleteAccount()
     {
-        List<User> users = db.loadUsers();
         System.out.println("Enter the account number to delete: ");
-        User userToFind = findUser(users, inputHelper());
-
+        int num = inputHelper();
+        User userToFind = findUser(db.loadUsers(), num);
+        // if exists, confirms and then deletes
         if (userToFind != null)
         {
-            System.out.print("Are you sure you want to delete account #" + userToFind.getId() + "? (yes/no): ");
+            System.out.print("To confirm, please re-enter account number to delete: ");
             String confirmation = scanner.next();
-
-            if (confirmation.equalsIgnoreCase("yes"))
+            if (confirmation.equalsIgnoreCase(Integer.toString(num)))
             {
+                // loads users again
+                List<User> users = db.loadUsers();
                 users.remove(userToFind);
                 db.saveDatabase(users);
-                System.out.println("Account #" + userToFind.getId() + " deleted successfully.");
+                System.out.println("Account #" + num + " deleted successfully.");
             }
             else
             {
@@ -110,7 +115,7 @@ public class AdminMenu implements menuInterface
             System.out.println("Account not found.");
         }
     }
-
+    // method to update account info
     private void updateAccountInfo()
     {
         List<User> users = db.loadUsers();
@@ -127,7 +132,7 @@ public class AdminMenu implements menuInterface
             System.out.println("4 - Update Account PIN");
             System.out.print("Select an option: ");
             int updateChoice = inputHelper();
-
+            // gets input from user and updates correct value
             switch (updateChoice)
             {
                 case 1:
@@ -136,7 +141,13 @@ public class AdminMenu implements menuInterface
                     break;
                 case 2:
                     System.out.print("Enter new Account Status (Active/Disabled): ");
-                    userToFind.setStatus(scanner.next());
+                    String newStatus = scanner.next().trim();
+                    if (newStatus.equalsIgnoreCase("active") || newStatus.equalsIgnoreCase("disabled")){
+                        userToFind.setStatus(newStatus);
+                    }
+                    else{
+                        System.out.println("Invalid status. Must be Active or Disabled.");
+                    }
                     break;
                 case 3:
                     System.out.print("Enter new Login: ");
@@ -144,19 +155,13 @@ public class AdminMenu implements menuInterface
                     break;
                 case 4:
                     System.out.print("Enter new PIN (5 digits): ");
-                    String newPin = scanner.next();
-                    if (newPin.length() != 5 || !newPin.matches("\\d+"))
-                    {
-                        System.out.println("Invalid pin. It should be 5 digits.");
-                        return;
-                    }
+                    int newPin = pinHelper();
                     userToFind.setPin(newPin);
                     break;
                 default:
                     System.out.println("Invalid choice. No updates made.");
                     return;
             }
-
             db.saveDatabase(users);
             System.out.println("Account updated successfully!");
         }
@@ -165,7 +170,7 @@ public class AdminMenu implements menuInterface
             System.out.println("Account not found.");
         }
     }
-
+    // method to search for and display an account
     private void searchAccount()
     {
         List<User> users = db.loadUsers();
@@ -189,7 +194,7 @@ public class AdminMenu implements menuInterface
     }
 
 
-
+    // helper method to find a given user in the list of users
     private User findUser(List<User> users, int accountNumber){
         for (User user : users)
         {
@@ -199,5 +204,17 @@ public class AdminMenu implements menuInterface
             }
         }
         return null;
+    }
+
+    // helper method to ensure Pin input is valid
+    private int pinHelper(){
+        String pinCode = "";
+        while (true){
+            pinCode = scanner.next();
+            if (pinCode.length() == 5 && pinCode.matches("\\d+")){
+                return (Integer.parseInt(pinCode));
+            }
+            System.out.println("Try again. Pin needs to be a 5 digit integer.");
+        }
     }
 }

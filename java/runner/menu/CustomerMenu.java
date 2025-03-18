@@ -1,7 +1,12 @@
+// menu file for customers
+package runner.menu;
+
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
+import database.User;
+import database.JSON.db;
 
 public class CustomerMenu implements menuInterface
 {
@@ -15,6 +20,7 @@ public class CustomerMenu implements menuInterface
     }
 
     @Override
+    // menu method
     public void display() throws IOException {
         while (true)
         {
@@ -36,6 +42,7 @@ public class CustomerMenu implements menuInterface
                     break;
                 case 3:
                     System.out.println("Account #"+user.getId());
+                    displayDate();
                     db.updateUser(user); // Save changes for this user
                     System.out.println("Current Balance: $" + user.getBalance());
                     break;
@@ -47,11 +54,11 @@ public class CustomerMenu implements menuInterface
             }
         }
     }
-
+    // method for withdrawing cash
     private void withdrawCash() throws IOException {
         System.out.print("Enter the withdrawal amount: ");
         double amount = doubleInputHelper();
-
+        // checks for valid amount to withdraw
         if (amount > 0 && amount <= user.getBalance())
         {
             System.out.println("Account #"+user.getId());
@@ -66,11 +73,11 @@ public class CustomerMenu implements menuInterface
             System.out.println("Invalid amount or insufficient funds.");
         }
     }
-
+    // method to deposit cash
     private void depositCash() throws IOException {
         System.out.print("Enter the amount of cash to deposit: ");
         double amount = doubleInputHelper();
-
+        // checks for valid input
         if (amount > 0)
         {
             System.out.println("Cash Deposited Successfully.");
@@ -86,13 +93,13 @@ public class CustomerMenu implements menuInterface
             System.out.println("Invalid amount.");
         }
     }
-
+    // method to display the date to match the provided code output
     private void displayDate(){
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/dd/yyyy");
         LocalDate localDate = LocalDate.now();
         System.out.println(dtf.format(localDate));
     }
-
+    // helper method to get a valid double from the user
     private double doubleInputHelper(){
         double input;
         while (true)
