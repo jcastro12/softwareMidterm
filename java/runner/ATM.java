@@ -1,3 +1,5 @@
+// main runner method for ATM program
+
 package runner;
 
 import java.io.IOException;
@@ -31,12 +33,14 @@ public class ATM {
 
         System.out.println("Welcome to the menu System");
 
+        // loops until user exits
         while (true) {
             System.out.print("Enter login: ");
             String login = scanner.nextLine();
 
             System.out.print("Enter PIN code: ");
-            String pinCode = "";
+            // checks for valid pin
+            String pinCode;
             while (true) {
                 pinCode = scanner.next();
                 if (pinCode.length() == 5 && pinCode.matches("\\d+")) {
@@ -44,7 +48,7 @@ public class ATM {
                 }
                 System.out.println("Try again. Pin needs to be a 5 digit integer.");
             }
-
+            // checks if name/pin match in DB
             User user = atm.authService.authenticate(login, Integer.parseInt(pinCode));
             if (user != null) {
                 System.out.println("Login successful!");
@@ -55,7 +59,7 @@ public class ATM {
                 } else {
                     menu = new AdminMenu(scanner);
                 }
-
+                // displays proper menu
                 menu.display();
                 break;
             } else {

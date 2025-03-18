@@ -1,3 +1,5 @@
+// implementation of JSON DB
+
 package database.JSON;
 
 import database.DBService;

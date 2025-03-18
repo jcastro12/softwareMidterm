@@ -1,3 +1,4 @@
+//interface for different types of databases
 package database;
 
 import java.util.List;

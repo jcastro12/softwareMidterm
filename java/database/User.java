@@ -1,3 +1,4 @@
+// class to store user information
 package database;
 
 import database.JSON.db;
@@ -22,7 +23,7 @@ public class User
         this.status = status;
         this.type = type;
     }
-
+    // getters and setters only included as necessary
     public String getLogin()
     {
         return login;

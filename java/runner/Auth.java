@@ -1,3 +1,4 @@
+// file to authenticate a user
 package runner;
 
 import com.google.inject.Inject;
@@ -14,7 +15,7 @@ public class Auth {
     public Auth(DBService databaseService) throws FileNotFoundException {
         this.users = databaseService.loadUsers(); // Use injected database service to load users
     }
-
+    // check if user info given matches any username/pin combo in the database
     public User authenticate(String username, int pin) {
         for (User user : users) {
             if (user.getLogin().equals(username) && user.getPin()==pin) {
