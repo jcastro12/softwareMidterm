@@ -35,7 +35,16 @@
       "type": "Customer",
       "balance": 50000.0,
       "status": "Disabled"
+    },
+    {
+      "id": 7,
+      "login": "JCas",
+      "pin": 21312,
+      "name": "Joshua C",
+      "type": "Customer",
+      "balance": 20000.0,
+      "status": "Active"
     }
   ],
-  "nextID": 7
+  "nextID": 8
 }

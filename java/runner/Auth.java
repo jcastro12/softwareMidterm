@@ -2,7 +2,7 @@
 package runner;
 
 import com.google.inject.Inject;
-import database.DBService;
+import database.JSON.JSONDBService;
 import database.User;
 
 import java.io.FileNotFoundException;
@@ -12,7 +12,7 @@ public class Auth {
     private final List<User> users;
 
     @Inject
-    public Auth(DBService databaseService) throws FileNotFoundException {
+    public Auth(JSONDBService databaseService) throws FileNotFoundException {
         this.users = databaseService.loadUsers(); // Use injected database service to load users
     }
     // check if user info given matches any username/pin combo in the database
