@@ -17,7 +17,16 @@
       "type": "Customer",
       "balance": 1000.0,
       "status": "Disabled"
+    },
+    {
+      "id": 4,
+      "login": "MikeKaz",
+      "pin": "12345",
+      "name": "Michael Kazper",
+      "type": "Customer",
+      "balance": 0.0,
+      "status": "Active"
     }
   ],
-  "nextID": 4
+  "nextID": 5
 }
