@@ -1,4 +1,6 @@
+import java.io.IOException;
+
 public interface menuInterface
 {
-    void display();
+    void display() throws IOException;
 }

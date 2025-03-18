@@ -1,15 +1,20 @@
+import java.io.FileNotFoundException;
+import java.util.List;
+
 public class Auth
 {
-    private final User[] users = {
-            new User("Adnan123", "12345", "Customer"),
-            new User("Javed123", "54321", "Admin")
-    };
+    private final List<User> users;
 
-    public User authenticate(String login, String pin)
+    public Auth() throws FileNotFoundException
+    {
+        this.users = db.loadUsers();
+    }
+
+    public User authenticate(String username, String pin)
     {
         for (User user : users)
         {
-            if (user.getLogin().equals(login) && user.getPin().equals(pin))
+            if (user.getLogin().equals(username) && user.getPin().equals(pin))
             {
                 return user;
             }

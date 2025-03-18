@@ -1,13 +1,24 @@
 import java.awt.*;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Scanner;
 
 public class ATM
 {
-    private static final Auth authService = new Auth();
-    private static final Scanner scanner = new Scanner(System.in);
+    private static final Auth authService;
 
-    public static void main(String[] args)
-    {
+    static {
+        try {
+            authService = new Auth();
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private static final Scanner scanner = new Scanner(System.in).useDelimiter("\\n");
+
+
+    public static void main(String[] args) throws IOException {
         System.out.println("Welcome to the ATM System");
 
         while (true)
@@ -27,7 +38,7 @@ public class ATM
                 menuInterface menu;
                 if (user.getType().equals("Customer"))
                 {
-                    menu = new CustomerMenu(scanner, user.getBalance());
+                    menu = new CustomerMenu(scanner, user);
                 }
                 else
                 {

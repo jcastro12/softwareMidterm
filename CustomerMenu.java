@@ -1,19 +1,19 @@
+import java.io.IOException;
 import java.util.Scanner;
 
 public class CustomerMenu implements menuInterface
 {
     private final Scanner scanner;
-    private double balance;
+    private final User user;
 
-    public CustomerMenu(Scanner scanner, double initialBalance)
+    public CustomerMenu(Scanner scanner, User user)
     {
         this.scanner = scanner;
-        this.balance = initialBalance;
+        this.user = user;
     }
 
     @Override
-    public void display()
-    {
+    public void display() throws IOException {
         while (true)
         {
             System.out.println("\nCustomer Menu:");
@@ -21,8 +21,8 @@ public class CustomerMenu implements menuInterface
             System.out.println("2 - Deposit Cash");
             System.out.println("3 - Display Balance");
             System.out.println("4 - Exit");
-
             System.out.print("Select an option: ");
+
             int choice = scanner.nextInt();
 
             switch (choice)
@@ -34,7 +34,7 @@ public class CustomerMenu implements menuInterface
                     depositCash();
                     break;
                 case 3:
-                    displayBalance();
+                    System.out.println("Current Balance: $" + user.getBalance());
                     break;
                 case 4:
                     System.out.println("Exiting... Thank you for using the ATM.");
@@ -45,47 +45,35 @@ public class CustomerMenu implements menuInterface
         }
     }
 
-    private void withdrawCash()
-    {
-        System.out.print("Enter the withdrawal amount: ");
+    private void withdrawCash() throws IOException {
+        System.out.print("Enter amount to withdraw: ");
         double amount = scanner.nextDouble();
 
-        if (amount <= 0)
+        if (amount > 0 && amount <= user.getBalance())
         {
-            System.out.println("Invalid amount. Please enter a positive number.");
-            return;
+            user.setBalance(user.getBalance() - amount);
+            db.updateUser(user); // Save changes for this user
+            System.out.println("Withdrawal successful. New balance: $" + user.getBalance());
         }
-        if (amount > balance)
+        else
         {
-            System.out.println("Insufficient balance. Transaction canceled.");
-            return;
+            System.out.println("Invalid amount or insufficient funds.");
         }
-
-        balance -= amount;
-        System.out.println("Cash successfully withdrawn.");
-        System.out.println("Amount: " + amount);
-        System.out.println("New Balance: " + balance);
     }
 
-    private void depositCash()
-    {
-        System.out.print("Enter the cash amount to deposit: ");
+    private void depositCash() throws IOException {
+        System.out.print("Enter amount to deposit: ");
         double amount = scanner.nextDouble();
 
-        if (amount <= 0)
+        if (amount > 0)
         {
-            System.out.println("Invalid amount. Please enter a positive number.");
-            return;
+            user.setBalance(user.getBalance() + amount);
+            db.updateUser(user); // Save changes for this user
+            System.out.println("Deposit successful. New balance: $" + user.getBalance());
         }
-
-        balance += amount;
-        System.out.println("Cash successfully deposited.");
-        System.out.println("Amount: " + amount);
-        System.out.println("New Balance: " + balance);
-    }
-
-    private void displayBalance()
-    {
-        System.out.println("Current Balance: " + balance);
+        else
+        {
+            System.out.println("Invalid amount.");
+        }
     }
 }
