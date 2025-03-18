@@ -10,14 +10,14 @@
       "status": "Active"
     },
     {
-      "id": 2,
-      "login": "bobRob",
+      "id": 3,
+      "login": "Adnan123",
       "pin": "12345",
-      "name": "Bob Roberts",
+      "name": "Adnan",
       "type": "Customer",
-      "balance": 100.0,
-      "status": "Active"
+      "balance": 1000.0,
+      "status": "Disabled"
     }
   ],
-  "nextID": 3
+  "nextID": 4
 }

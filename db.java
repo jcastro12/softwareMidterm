@@ -75,12 +75,6 @@ public class db
         return nextID++;
     }
 
-    public static void addUser(User newUser)
-    {
-        List<User> users = loadUsers();
-        users.add(newUser);
-        saveDatabase(users);
-    }
 
     public static void updateUser(User updatedUser)
     {
