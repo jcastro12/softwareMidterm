@@ -8,7 +8,10 @@ on:
   pull_request:
     branches:
       - main
-
+      
+permissions:
+  contents: write
+  
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -47,8 +50,10 @@ jobs:
 
       - name: Commit and push Javadoc to GitHub Pages
         run: |
-          git config --global user.name 'github-actions'
-          git config --global user.email 'github-actions@users.noreply.github.com'
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@users.noreply.github.com"
           git add docs/*
           git commit -m "Update Javadoc"
-          git push https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }} HEAD:gh-pages
+          git push https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }} HEAD:gh-pages
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
