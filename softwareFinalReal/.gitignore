@@ -1,0 +1,53 @@
+# Ignore Maven build directories
+/target/
+/.idea/
+/*.iml
+
+# Ignore IDE-related files (IntelliJ, Eclipse, etc.)
+# IntelliJ IDEA
+.idea/
+*.iws
+*.iml
+*.ipr
+
+# Eclipse
+.project
+.classpath
+.settings/
+
+# NetBeans
+nbproject/
+
+# Build output
+target/
+
+# Ignore Maven wrapper files (if not needed)
+.mvn/
+
+# Operating system files
+.DS_Store
+Thumbs.db
+
+# Log files
+*.log
+
+# Temporary files
+*.swp
+*.swo
+
+# Ignore configuration files that might contain sensitive information
+*.properties
+*.yml
+*.yaml
+*.json
+
+# Ignore the dependency directory (this is typically handled by Maven)
+.mvn/
+
+# Maven-specific files to ignore
+mvnw
+mvnw.cmd
+
+# Ignore generated files (for example, Javadoc, reports, etc.)
+**/target/**
+**/*.log
