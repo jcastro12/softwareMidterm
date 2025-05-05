@@ -22,34 +22,33 @@ jobs:
         with:
           java-version: '23'
           distribution: 'zulu'
-    
-    # Run Style Analysis (e.g., using Checkstyle)
-    - name: Run Checkstyle
-      run: mvn checkstyle:check
 
-    # Build the code (both release and debug)
-    - name: Build project
-      run: mvn clean install
+      # Run Style Analysis (e.g., using Checkstyle)
+      - name: Run Checkstyle
+        run: mvn checkstyle:check
 
-    # Run unit tests
-    - name: Run tests
-      run: mvn test
+      # Build the code (both release and debug)
+      - name: Build project
+        run: mvn clean install
 
-    # Generate and publish Javadoc
-    - name: Generate Javadoc
-      run: mvn javadoc:javadoc
+      # Run unit tests
+      - name: Run tests
+        run: mvn test
 
-    # Upload Javadoc to GitHub Pages (optional for publishing)
-    - name: Deploy Javadoc to GitHub Pages
-      run: |
-        mvn javadoc:javadoc
-        mkdir -p docs
-        mv target/site/apidocs/* docs/
-    
-    - name: Commit and push Javadoc to GitHub Pages
-      run: |
-        git config --global user.name 'github-actions'
-        git config --global user.email 'github-actions@users.noreply.github.com'
-        git add docs/*
-        git commit -m "Update Javadoc"
-        git push origin HEAD:gh-pages
+      # Generate and publish Javadoc
+      - name: Generate Javadoc
+        run: mvn javadoc:javadoc
+
+      # Upload Javadoc to GitHub Pages (optional for publishing)
+      - name: Deploy Javadoc to GitHub Pages
+        run: |
+          mkdir -p docs
+          mv target/site/apidocs/* docs/
+
+      - name: Commit and push Javadoc to GitHub Pages
+        run: |
+          git config --global user.name 'github-actions'
+          git config --global user.email 'github-actions@users.noreply.github.com'
+          git add docs/*
+          git commit -m "Update Javadoc"
+          git push origin HEAD:gh-pages
