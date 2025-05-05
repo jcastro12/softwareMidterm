@@ -45,8 +45,9 @@ jobs:
       # Upload Javadoc to GitHub Pages (optional for publishing)
       - name: Deploy Javadoc to GitHub Pages
         run: |
+          rm -rf docs/database docs/menu docs/legal docs/resource-files docs/script-files
           mkdir -p docs
-          mv target/site/apidocs/* docs/
+          mv database legal menu resource-files script-files docs/
 
       - name: Commit and push Javadoc to GitHub Pages
         run: |
