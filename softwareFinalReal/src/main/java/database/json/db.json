@@ -1,0 +1,59 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "login": "admin",
+      "pin": 54321,
+      "name": "Joshua",
+      "type": "Admin",
+      "balance": 0.0,
+      "status": "Active"
+    },
+    {
+      "id": 3,
+      "login": "Adnan123",
+      "pin": 12345,
+      "name": "Adnan",
+      "type": "Customer",
+      "balance": 9962.0,
+      "status": "Disabled"
+    },
+    {
+      "id": 4,
+      "login": "MikeKaz",
+      "pin": 12345,
+      "name": "Michael Kazper",
+      "type": "Customer",
+      "balance": 0.0,
+      "status": "Active"
+    },
+    {
+      "id": 6,
+      "login": "JamesB",
+      "pin": 45678,
+      "name": "James",
+      "type": "Customer",
+      "balance": 50000.0,
+      "status": "Disabled"
+    },
+    {
+      "id": 7,
+      "login": "JCas",
+      "pin": 21312,
+      "name": "Joshua C",
+      "type": "Customer",
+      "balance": 20000.0,
+      "status": "Active"
+    },
+    {
+      "id": 8,
+      "login": "testUser",
+      "pin": 12345,
+      "name": "Test User",
+      "type": "Customer",
+      "balance": 40000.0,
+      "status": "Active"
+    }
+  ],
+  "nextID": 9
+}
